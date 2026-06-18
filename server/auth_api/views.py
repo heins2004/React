@@ -19,6 +19,17 @@ def parse_request_body(request):
         return None
 
 
+def get_image_url(painting, request):
+    if not painting.image:
+        return ""
+
+    url = painting.image.url
+    if url.startswith("http"):
+        return url
+
+    return request.build_absolute_uri(url)
+
+
 def serialize_painting(painting, request):
     return {
         "id": painting.id,
@@ -27,7 +38,7 @@ def serialize_painting(painting, request):
         "seller": painting.seller.username,
         "seller_id": painting.seller_id,
         "isOrdered": painting.is_ordered,
-        "imageUrl": request.build_absolute_uri(painting.image.url),
+        "imageUrl": get_image_url(painting, request),
     }
 
 

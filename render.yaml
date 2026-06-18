@@ -22,6 +22,12 @@ services:
           name: art-gallery-db
           property: connectionString
       - key: CORS_ORIGIN
+        value: https://art-gallery-6tqj.onrender.com
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
         sync: false
 
   - type: web
@@ -32,4 +38,4 @@ services:
     staticPublishPath: dist
     envVars:
       - key: VITE_API_BASE
-        sync: false
+        value: https://art-gallery-api-l52s.onrender.com/api/auth
