@@ -21,6 +21,28 @@ const initialPaintingForm = {
   image: null
 };
 
+function PaintingImage({ src, alt }) {
+  const [failed, setFailed] = useState(false);
+
+  if (!src || failed) {
+    return (
+      <div className="painting-image-fallback" role="img" aria-label={alt}>
+        Image unavailable
+      </div>
+    );
+  }
+
+  return (
+    <img
+      className="painting-image"
+      src={src}
+      alt={alt}
+      loading="lazy"
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
 export default function App() {
   const [screen, setScreen] = useState("home");
   const [loginForm, setLoginForm] = useState(initialLoginForm);
@@ -428,7 +450,9 @@ export default function App() {
           ) : (
             paintings.map((painting) => (
               <article className="painting-card" key={painting.id}>
-                <img className="painting-image" src={painting.imageUrl} alt={painting.title} />
+                <div className="painting-image-wrap">
+                  <PaintingImage src={painting.imageUrl} alt={painting.title} />
+                </div>
                 <div className="painting-body">
                   <div>
                     <p className="card-kicker">By {painting.seller}</p>

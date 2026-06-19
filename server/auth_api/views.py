@@ -23,6 +23,17 @@ def get_image_url(painting, request):
     if not painting.image:
         return ""
 
+    from django.conf import settings
+
+    name = painting.image.name
+    if not name:
+        return ""
+
+    if getattr(settings, "USE_CLOUDINARY", False):
+        from cloudinary import CloudinaryImage
+
+        return CloudinaryImage(name).build_url(secure=True)
+
     url = painting.image.url
     if url.startswith("http"):
         return url
